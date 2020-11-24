@@ -1,0 +1,26 @@
+<div>
+    <h2 mat-dialog-title *ngIf="contact.id == undefined">Add New Contact</h2>
+    <h2 mat-dialog-title *ngIf="contact.id > 0">Update Contact</h2>
+    <form [formGroup]="contactForm" class="form" (ngSubmit)="onSave()">
+        <mat-dialog-content>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="errorHandling('name', 'required')">
+                    You must provide a <strong>name</strong>
+                 </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phoneNumber" required>
+                <mat-error *ngIf="errorHandling('phoneNumber', 'required')">
+                    You must provide a <strong>phone number</strong>
+                 </mat-error>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <button mat-button [disabled]="!contactForm.valid" type="submit">Save</button>
+        </mat-dialog-actions>
+    </form>
+</div>
