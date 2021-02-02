@@ -14,6 +14,7 @@ import { MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HomeComponent } from './components/home/home.component';
 import { ViewContactsComponent } from './components/view-contacts/view-contacts.component';
@@ -35,10 +36,10 @@ import { ContactService } from './services/contact.service';
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
-    //MatDialogTitle,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule

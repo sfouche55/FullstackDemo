@@ -33,21 +33,24 @@ export class ViewContactsComponent implements OnInit {
   }
 
   getContacts(): void {
-    this.contactService.get().subscribe((data) => {
-      this.contacts = data;
+    this.contactService.get().subscribe(result => {
+      this.contacts = result;
       this.dataSource = new MatTableDataSource(this.contacts);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     }, 
-    (err) => {});
+    (err) => {
+      // TODO: error checking
+    });
   }
 
   editContact(record: ContactModel) {
     const dialogRef = this.dialog.open(ManageContactComponent, { data: record });
-    dialogRef.afterClosed().subscribe( result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         this.getContacts();
       }
+      // TODO: error checking
     })
   }
 
@@ -55,10 +58,10 @@ export class ViewContactsComponent implements OnInit {
     this.editContact(null);
   }
     
-      deleteContact(record: ContactModel) {
-    this.contactService.remove(record).subscribe(
-      result => this.getContacts()
-    );
+  deleteContact(record: ContactModel) {
+    this.contactService.remove(record).subscribe(result => 
+      this.getContacts());
+    // TODO: error checking
   }
 
 }

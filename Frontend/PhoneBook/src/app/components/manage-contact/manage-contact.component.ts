@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ContactService } from '../../services/contact.service';
 import { ContactModel } from '../../models/contact.model';
@@ -19,7 +20,8 @@ export class ManageContactComponent implements OnInit {
     private dialogref : MatDialogRef<ManageContactComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ContactModel,
     private formBuilder: FormBuilder,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -39,29 +41,26 @@ export class ManageContactComponent implements OnInit {
   }
 
   onSave() {
+    // TODO Add busy/progress bars?
     this.contact.name = this.contactForm.controls["name"].value;
     this.contact.phoneNumber = this.contactForm.controls["phoneNumber"].value;
     if (this.contact.id == undefined) {
       this.contactService.add(this.contact).subscribe(
-        (data) => {
-          console.log(data);
-          this.dialogref.close(data);
+        (result) => {
+          this.dialogref.close(result);
         }, 
-        (err) => {
-          console.log("error: ");
-          console.log(err);
+        (error) => {
+          this.snackBar.open(error, "OK", { duration: 5000 });
           this.dialogref.close(null);
         }
       );
     } else {
       this.contactService.update(this.contact).subscribe(
-        (res) => {
-          console.log(res);
+        (result) => {
           this.dialogref.close(this.contact);
         }, 
-        (err) => {
-          console.log("error: ");
-          console.log(err);
+        (error) => {
+          this.snackBar.open(error, "OK", { duration: 5000 });
           this.dialogref.close(null);
         }
       );
