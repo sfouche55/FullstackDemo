@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { HttpErrorResponse } from "@angular/common/http";
 
 import { ContactService } from '../../services/contact.service';
 import { ContactModel } from '../../models/contact.model';
@@ -19,6 +22,7 @@ export class ViewContactsComponent implements OnInit {
   dataSource: MatTableDataSource<ContactModel>;
   displayedColumns: string[] = ['name', 'phoneNumber', 'actions'];
   pageSizeOptions = [5, 10, 25, 50];
+  busy: boolean;
 
   public contacts: Array<ContactModel>;
   public currentContact: any;
@@ -26,22 +30,37 @@ export class ViewContactsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private contactService: ContactService, public dialog: MatDialog) { }
+  constructor(
+    private contactService: ContactService, 
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.getContacts();
   }
 
   getContacts(): void {
-    this.contactService.get().subscribe(result => {
-      this.contacts = result;
-      this.dataSource = new MatTableDataSource(this.contacts);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    }, 
-    (err) => {
-      // TODO: error checking
-    });
+    this.busy = true;
+    this.contactService.get().subscribe(
+      (result) => {
+        this.contacts = result;
+        this.dataSource = new MatTableDataSource(this.contacts);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.busy = false;
+      }, 
+      (error: HttpErrorResponse) => {
+        let errMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errMsg = error.error.message;
+        } else {
+          errMsg = error.statusText; // + " " + error.status.toFixed(); // status code as string
+        }
+        this.snackBar.open(errMsg, "OK", { duration: 5000 });
+        this.busy = false;
+      }
+    );
   }
 
   editContact(record: ContactModel) {

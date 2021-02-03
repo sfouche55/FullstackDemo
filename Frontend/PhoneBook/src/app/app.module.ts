@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { HomeComponent } from './components/home/home.component';
 import { ViewContactsComponent } from './components/view-contacts/view-contacts.component';
@@ -40,6 +41,7 @@ import { ContactService } from './services/contact.service';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatProgressBarModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
