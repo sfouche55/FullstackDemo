@@ -51,12 +51,14 @@ export class ViewContactsComponent implements OnInit {
         this.busy = false;
       }, 
       (error: HttpErrorResponse) => {
+        console.error(error);
         let errMsg: string;
         if (error.error instanceof ErrorEvent) {
           errMsg = error.error.message;
         } else {
-          errMsg = error.statusText; // + " " + error.status.toFixed(); // status code as string
+          errMsg = error.message;
         }
+        console.log("Error message: " + errMsg);
         this.snackBar.open(errMsg, "OK", { duration: 5000 });
         this.busy = false;
       }
@@ -65,12 +67,13 @@ export class ViewContactsComponent implements OnInit {
 
   editContact(record: ContactModel) {
     const dialogRef = this.dialog.open(ManageContactComponent, { data: record });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
-        this.getContacts();
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        if (result != null) {
+            this.getContacts();
+        } // else error has already been dealt with on closing the dialog
       }
-      // TODO: error checking
-    })
+    )
   }
 
   addContact() {
@@ -78,9 +81,20 @@ export class ViewContactsComponent implements OnInit {
   }
     
   deleteContact(record: ContactModel) {
-    this.contactService.remove(record).subscribe(result => 
-      this.getContacts());
-    // TODO: error checking
+    this.contactService.remove(record).subscribe(
+      (result) => {
+        this.getContacts();
+      },
+      (error: HttpErrorResponse) => {
+        let errMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errMsg = error.error.message;
+        } else {
+          errMsg = error.message;
+        }
+        this.snackBar.open(errMsg, "OK", { duration: 5000 });
+      }
+    )
   }
 
 }

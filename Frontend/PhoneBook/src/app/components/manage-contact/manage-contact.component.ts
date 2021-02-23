@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ContactService } from '../../services/contact.service';
 import { ContactModel } from '../../models/contact.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-contact',
@@ -41,7 +42,6 @@ export class ManageContactComponent implements OnInit {
   }
 
   onSave() {
-    // TODO Add busy/progress bars?
     this.contact.name = this.contactForm.controls["name"].value;
     this.contact.phoneNumber = this.contactForm.controls["phoneNumber"].value;
     if (this.contact.id == undefined) {
@@ -49,25 +49,39 @@ export class ManageContactComponent implements OnInit {
         (result) => {
           this.dialogref.close(result);
         }, 
-        (error) => {
-          this.snackBar.open(error, "OK", { duration: 5000 });
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          let errMsg: string;
+          if (error.error instanceof ErrorEvent) {
+            errMsg = error.error.message;
+          } else {
+            errMsg = error.message;
+          }
+          this.snackBar.open(errMsg, "OK", { duration: 5000 });
           this.dialogref.close(null);
         }
       );
     } else {
       this.contactService.update(this.contact).subscribe(
         (result) => {
-          this.dialogref.close(this.contact);
+            this.dialogref.close(this.contact);
         }, 
-        (error) => {
-          this.snackBar.open(error, "OK", { duration: 5000 });
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          let errMsg: string;
+          if (error.error instanceof ErrorEvent) {
+            errMsg = error.error.message;
+          } else {
+            errMsg = error.message;
+          }
+          this.snackBar.open(errMsg, "OK", { duration: 5000 });
           this.dialogref.close(null);
         }
       );
     }
   }
 
-  public errorHandling = (control: string, error: string) => {
+  public handleError = (control: string, error: string) => {
     return this.contactForm.controls[control].hasError(error);
   }
 

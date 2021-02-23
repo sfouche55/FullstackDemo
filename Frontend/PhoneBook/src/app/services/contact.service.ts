@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { ContactModel } from '../models/contact.model';
 
@@ -17,6 +17,13 @@ export class ContactService {
   }
 
   public get(): Observable<ContactModel[]> {
+
+    // Simulate server-side error
+    //this.accessPointUrl = "https://localhost:44306/api/ContactsY";
+
+    // Simulate client-side error
+    //return throwError(new Error("test error"));
+
     return this.http.get<ContactModel[]>(this.accessPointUrl, {headers: this.headers});
   }
 

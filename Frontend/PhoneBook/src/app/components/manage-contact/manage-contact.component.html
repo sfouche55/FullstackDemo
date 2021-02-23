@@ -6,7 +6,7 @@
             <mat-form-field>
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" required>
-                <mat-error *ngIf="errorHandling('name', 'required')">
+                <mat-error *ngIf="handleError('name', 'required')">
                     You must provide a <strong>name</strong>
                  </mat-error>
             </mat-form-field>
@@ -14,7 +14,7 @@
             <mat-form-field>
                 <mat-label>Phone Number</mat-label>
                 <input matInput formControlName="phoneNumber" required>
-                <mat-error *ngIf="errorHandling('phoneNumber', 'required')">
+                <mat-error *ngIf="handleError('phoneNumber', 'required')">
                     You must provide a <strong>phone number</strong>
                  </mat-error>
             </mat-form-field>
