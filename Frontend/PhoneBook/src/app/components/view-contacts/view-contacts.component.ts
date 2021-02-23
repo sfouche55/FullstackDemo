@@ -51,15 +51,7 @@ export class ViewContactsComponent implements OnInit {
         this.busy = false;
       }, 
       (error: HttpErrorResponse) => {
-        console.error(error);
-        let errMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errMsg = error.error.message;
-        } else {
-          errMsg = error.message;
-        }
-        console.log("Error message: " + errMsg);
-        this.snackBar.open(errMsg, "OK", { duration: 5000 });
+        this.handleHttpErrorResponse(error);
         this.busy = false;
       }
     );
@@ -86,15 +78,20 @@ export class ViewContactsComponent implements OnInit {
         this.getContacts();
       },
       (error: HttpErrorResponse) => {
-        let errMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errMsg = error.error.message;
-        } else {
-          errMsg = error.message;
-        }
-        this.snackBar.open(errMsg, "OK", { duration: 5000 });
+        this.handleHttpErrorResponse(error);
       }
     )
+  }
+
+  private handleHttpErrorResponse(error: HttpErrorResponse) {
+    console.error(error);
+    let errMsg: string;
+    if (error.error instanceof ErrorEvent) {
+      errMsg = error.error.message;
+    } else {
+      errMsg = error.message;
+    }
+    this.snackBar.open(errMsg, "OK", { duration: 5000 });
   }
 
 }

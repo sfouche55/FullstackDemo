@@ -50,14 +50,7 @@ export class ManageContactComponent implements OnInit {
           this.dialogref.close(result);
         }, 
         (error: HttpErrorResponse) => {
-          console.error(error);
-          let errMsg: string;
-          if (error.error instanceof ErrorEvent) {
-            errMsg = error.error.message;
-          } else {
-            errMsg = error.message;
-          }
-          this.snackBar.open(errMsg, "OK", { duration: 5000 });
+          this.handleHttpErrorResponse(error);
           this.dialogref.close(null);
         }
       );
@@ -67,18 +60,22 @@ export class ManageContactComponent implements OnInit {
             this.dialogref.close(this.contact);
         }, 
         (error: HttpErrorResponse) => {
-          console.error(error);
-          let errMsg: string;
-          if (error.error instanceof ErrorEvent) {
-            errMsg = error.error.message;
-          } else {
-            errMsg = error.message;
-          }
-          this.snackBar.open(errMsg, "OK", { duration: 5000 });
+          this.handleHttpErrorResponse(error);
           this.dialogref.close(null);
         }
       );
     }
+  }
+
+  private handleHttpErrorResponse(error: HttpErrorResponse) {
+    console.error(error);
+    let errMsg: string;
+    if (error.error instanceof ErrorEvent) {
+      errMsg = error.error.message;
+    } else {
+      errMsg = error.message;
+    }
+    this.snackBar.open(errMsg, "OK", { duration: 5000 });
   }
 
   public handleError = (control: string, error: string) => {
