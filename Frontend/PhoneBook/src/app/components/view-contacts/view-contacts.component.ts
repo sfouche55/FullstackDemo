@@ -2,9 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { HttpErrorResponse } from "@angular/common/http";
 
 import { ContactService } from '../../services/contact.service';
 import { ContactModel } from '../../models/contact.model';
@@ -32,8 +29,7 @@ export class ViewContactsComponent implements OnInit {
 
   constructor(
     private contactService: ContactService, 
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -50,8 +46,7 @@ export class ViewContactsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.busy = false;
       }, 
-      (error: HttpErrorResponse) => {
-        this.handleHttpErrorResponse(error);
+      (error) => {
         this.busy = false;
       }
     );
@@ -77,21 +72,10 @@ export class ViewContactsComponent implements OnInit {
       (result) => {
         this.getContacts();
       },
-      (error: HttpErrorResponse) => {
-        this.handleHttpErrorResponse(error);
+      (error) => {
+        // handled by service
       }
     )
-  }
-
-  private handleHttpErrorResponse(error: HttpErrorResponse) {
-    console.error(error);
-    let errMsg: string;
-    if (error.error instanceof ErrorEvent) {
-      errMsg = error.error.message;
-    } else {
-      errMsg = error.message;
-    }
-    this.snackBar.open(errMsg, "OK", { duration: 5000 });
   }
 
 }

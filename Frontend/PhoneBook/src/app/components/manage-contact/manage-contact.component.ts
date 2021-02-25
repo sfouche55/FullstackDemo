@@ -1,11 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ContactService } from '../../services/contact.service';
 import { ContactModel } from '../../models/contact.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-manage-contact',
@@ -21,8 +19,7 @@ export class ManageContactComponent implements OnInit {
     private dialogref : MatDialogRef<ManageContactComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ContactModel,
     private formBuilder: FormBuilder,
-    private contactService: ContactService,
-    private snackBar: MatSnackBar
+    private contactService: ContactService
   ) { }
 
   ngOnInit(): void {
@@ -49,8 +46,7 @@ export class ManageContactComponent implements OnInit {
         (result) => {
           this.dialogref.close(result);
         }, 
-        (error: HttpErrorResponse) => {
-          this.handleHttpErrorResponse(error);
+        (error) => {
           this.dialogref.close(null);
         }
       );
@@ -59,23 +55,11 @@ export class ManageContactComponent implements OnInit {
         (result) => {
             this.dialogref.close(this.contact);
         }, 
-        (error: HttpErrorResponse) => {
-          this.handleHttpErrorResponse(error);
+        (error) => {
           this.dialogref.close(null);
         }
       );
     }
-  }
-
-  private handleHttpErrorResponse(error: HttpErrorResponse) {
-    console.error(error);
-    let errMsg: string;
-    if (error.error instanceof ErrorEvent) {
-      errMsg = error.error.message;
-    } else {
-      errMsg = error.message;
-    }
-    this.snackBar.open(errMsg, "OK", { duration: 5000 });
   }
 
   public handleError = (control: string, error: string) => {
