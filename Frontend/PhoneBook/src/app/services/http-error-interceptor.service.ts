@@ -1,8 +1,17 @@
+import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
+import { NotificationService } from './notification.service'
+
+@Injectable({
+  providedIn: 'root'
+})
 export class HttpErrorInterceptorService implements HttpInterceptor {
+  constructor(
+    private notifications: NotificationService) 
+  { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
@@ -16,9 +25,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
         } else {
           errorMessage = error.message;
         }
-        // TODO: show snackbar instead of alert message
-        //this.snackBar.open(errorMessage, "OK", { duration: 5000 });
-        window.alert(errorMessage);
+        this.notifications.showError(errorMessage);
         return throwError(errorMessage);
       })
     )

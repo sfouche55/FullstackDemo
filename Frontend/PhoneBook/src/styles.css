@@ -1,1 +1,6 @@
-@import '~bootstrap/dist/css/bootstrap.min.css'
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.snackbar-error{
+    background-color:brown;
+    color:white;
+}

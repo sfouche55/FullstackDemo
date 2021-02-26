@@ -56,8 +56,6 @@ export class ManageContactComponent implements OnInit {
           this.dialogref.close(this.contact);
         }, 
         (error) => {
-          console.log("testing");
-          console.error(error);
           this.dialogref.close(null);
         }
       );

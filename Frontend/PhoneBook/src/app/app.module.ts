@@ -20,9 +20,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HomeComponent } from './components/home/home.component';
 import { ViewContactsComponent } from './components/view-contacts/view-contacts.component';
 import { ManageContactComponent } from './components/manage-contact/manage-contact.component';
+
 import { ContactService } from './services/contact.service';
 import { HttpErrorInterceptorService } from './services/http-error-interceptor.service';
 import { GlobalErrorHandlerService } from './services/global-error-handler.service';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { GlobalErrorHandlerService } from './services/global-error-handler.servi
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptorService,
       multi: true
-    }
+    },
+    NotificationService
   ],
   entryComponents: [
     ManageContactComponent
