@@ -29,22 +29,7 @@ export class ContactService {
   }
 
   public update(contact: ContactModel): Observable<ContactModel> {
-    // Server side testing
-    //this.accessPointUrl = "https://localhost:44306/api/ContactsY";
-
-    // Client side testing
-    /*let event = new ErrorEvent(
-      "Client Side Test Error", {
-        error : new Error('AAAHHHH'),
-        message : 'A monkey is throwing bananas at me!',
-        lineno : 402,
-        filename : 'closet.html'
-      }
-    );    
-    let error = new HttpErrorResponse({error: event, headers: this.headers, url: this.accessPointUrl, statusText: "testing", status: 101});
-    return throwError(error);*/
-    
-    return this.http.put<ContactModel>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
+   return this.http.put<ContactModel>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
   }
 
 }
