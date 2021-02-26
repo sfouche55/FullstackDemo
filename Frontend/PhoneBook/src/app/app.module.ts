@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,6 +21,8 @@ import { HomeComponent } from './components/home/home.component';
 import { ViewContactsComponent } from './components/view-contacts/view-contacts.component';
 import { ManageContactComponent } from './components/manage-contact/manage-contact.component';
 import { ContactService } from './services/contact.service';
+import { HttpErrorInterceptorService } from './services/http-error-interceptor.service';
+import { GlobalErrorHandlerService } from './services/global-error-handler.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,16 @@ import { ContactService } from './services/contact.service';
     MatInputModule
   ],
   providers: [
-    ContactService
+    ContactService,
+    { 
+      provide: ErrorHandler, 
+      useClass: GlobalErrorHandlerService
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    }
   ],
   entryComponents: [
     ManageContactComponent

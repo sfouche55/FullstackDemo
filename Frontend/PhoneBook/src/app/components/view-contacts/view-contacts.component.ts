@@ -58,7 +58,7 @@ export class ViewContactsComponent implements OnInit {
       (result) => {
         if (result != null) {
             this.getContacts();
-        } // else error has already been dealt with on closing the dialog
+        }
       }
     )
   }
@@ -73,7 +73,7 @@ export class ViewContactsComponent implements OnInit {
         this.getContacts();
       },
       (error) => {
-        // handled by service
+        // handled by interceptor
       }
     )
   }

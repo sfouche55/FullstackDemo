@@ -53,9 +53,11 @@ export class ManageContactComponent implements OnInit {
     } else {
       this.contactService.update(this.contact).subscribe(
         (result) => {
-            this.dialogref.close(this.contact);
+          this.dialogref.close(this.contact);
         }, 
         (error) => {
+          console.log("testing");
+          console.error(error);
           this.dialogref.close(null);
         }
       );
