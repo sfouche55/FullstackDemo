@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ContactService } from '../../services/contact.service';
-import { ContactModel } from '../../models/contact.model';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'app-manage-contact',
@@ -12,21 +12,21 @@ import { ContactModel } from '../../models/contact.model';
 })
 export class ManageContactComponent implements OnInit {
 
-  contact: ContactModel;
+  contact: Contact;
   contactForm: FormGroup;
   
   constructor(
     private dialogref : MatDialogRef<ManageContactComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ContactModel,
+    @Inject(MAT_DIALOG_DATA) public data: Contact,
     private formBuilder: FormBuilder,
     private contactService: ContactService
   ) { }
 
   ngOnInit(): void {
     if (this.data == null) {
-      this.contact = ContactModel.Create(undefined, "", "");
+      this.contact = { id: undefined, name: '', phoneNumber: '' };
     } else {
-      this.contact = ContactModel.Create(this.data.id, this.data.name, this.data.phoneNumber);
+      this.contact = { id: this.data.id, name: this.data.name, phoneNumber: this.data.phoneNumber };
     }
     this.contactForm = this.formBuilder.group({
       name: [this.contact.name, Validators.required],
@@ -39,8 +39,8 @@ export class ManageContactComponent implements OnInit {
   }
 
   onSave() {
-    this.contact.name = this.contactForm.controls["name"].value;
-    this.contact.phoneNumber = this.contactForm.controls["phoneNumber"].value;
+    this.contact.name = this.contactForm.controls['name'].value;
+    this.contact.phoneNumber = this.contactForm.controls['phoneNumber'].value;
     if (this.contact.id == undefined) {
       this.contactService.add(this.contact).subscribe(
         (result) => {

@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 import { ContactService } from '../../services/contact.service';
-import { ContactModel } from '../../models/contact.model';
+import { Contact } from '../../models/contact.model';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
@@ -16,12 +16,12 @@ import { ManageContactComponent } from '../manage-contact/manage-contact.compone
 })
 export class ViewContactsComponent implements OnInit {
 
-  dataSource: MatTableDataSource<ContactModel>;
+  dataSource: MatTableDataSource<Contact>;
   displayedColumns: string[] = ['name', 'phoneNumber', 'actions'];
   pageSizeOptions = [5, 10, 25, 50];
   busy: boolean;
 
-  public contacts: Array<ContactModel>;
+  public contacts: Array<Contact>;
   public currentContact: any;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -52,7 +52,7 @@ export class ViewContactsComponent implements OnInit {
     );
   }
 
-  editContact(record: ContactModel) {
+  editContact(record: Contact) {
     const dialogRef = this.dialog.open(ManageContactComponent, { data: record });
     dialogRef.afterClosed().subscribe(
       (result) => {
@@ -67,7 +67,7 @@ export class ViewContactsComponent implements OnInit {
     this.editContact(null);
   }
     
-  deleteContact(record: ContactModel) {
+  deleteContact(record: Contact) {
     this.contactService.remove(record).subscribe(
       (result) => {
         this.getContacts();

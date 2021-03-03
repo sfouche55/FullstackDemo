@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { ContactModel } from '../models/contact.model';
+import { Contact } from '../models/contact.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,20 +16,20 @@ export class ContactService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
   }
 
-  public get(): Observable<ContactModel[]> {
-    return this.http.get<ContactModel[]>(this.accessPointUrl, {headers: this.headers});
+  public get(): Observable<Contact[]> {
+    return this.http.get<Contact[]>(this.accessPointUrl, {headers: this.headers});
   }
 
-  public add(contact: ContactModel): Observable<ContactModel> {
-    return this.http.post<ContactModel>(this.accessPointUrl, contact, {headers: this.headers});
+  public add(contact: Contact): Observable<Contact> {
+    return this.http.post<Contact>(this.accessPointUrl, contact, {headers: this.headers});
   }
 
-  public remove(contact: ContactModel): Observable<ContactModel> {
-    return this.http.delete<ContactModel>(this.accessPointUrl + '/' + contact.id, {headers: this.headers});
+  public remove(contact: Contact): Observable<Contact> {
+    return this.http.delete<Contact>(this.accessPointUrl + '/' + contact.id, {headers: this.headers});
   }
 
-  public update(contact: ContactModel): Observable<ContactModel> {
-   return this.http.put<ContactModel>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
+  public update(contact: Contact): Observable<Contact> {
+   return this.http.put<Contact>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
   }
 
 }
