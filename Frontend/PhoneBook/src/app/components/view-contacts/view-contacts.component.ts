@@ -22,8 +22,7 @@ export class ViewContactsComponent implements OnInit {
   busy: boolean;
 
   public contacts: Array<Contact>;
-  public currentContact: any;
-
+  
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -38,44 +37,41 @@ export class ViewContactsComponent implements OnInit {
 
   getContacts(): void {
     this.busy = true;
-    this.contactService.get().subscribe(
-      (result) => {
+    this.contactService.get().subscribe({
+      next: (result) => {
         this.contacts = result;
         this.dataSource = new MatTableDataSource(this.contacts);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.busy = false;
+        //this.busy = false;
       }, 
-      (error) => {
+      complete: () => {
         this.busy = false;
       }
-    );
+    });
   }
 
-  editContact(record: Contact) {
+  editContact(record: Contact): void {
     const dialogRef = this.dialog.open(ManageContactComponent, { data: record });
-    dialogRef.afterClosed().subscribe(
-      (result) => {
+    dialogRef.afterClosed().subscribe({
+      next: (result) => {
         if (result != null) {
             this.getContacts();
         }
       }
-    )
+    })
   }
 
-  addContact() {
+  addContact(): void {
     this.editContact(null);
   }
     
-  deleteContact(record: Contact) {
-    this.contactService.remove(record).subscribe(
-      (result) => {
+  deleteContact(record: Contact): void {
+    this.contactService.remove(record).subscribe({
+      complete: () => {
         this.getContacts();
-      },
-      (error) => {
-        // handled by interceptor
       }
-    )
+    })
   }
 
 }
