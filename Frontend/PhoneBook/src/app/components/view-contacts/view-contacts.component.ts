@@ -43,8 +43,10 @@ export class ViewContactsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.contacts);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        //this.busy = false;
-      }, 
+      },
+      error: () => {
+        this.busy = false;
+      },
       complete: () => {
         this.busy = false;
       }
@@ -68,8 +70,11 @@ export class ViewContactsComponent implements OnInit {
     
   deleteContact(record: Contact): void {
     this.contactService.remove(record).subscribe({
-      complete: () => {
+      next: () => {
         this.getContacts();
+      },
+      error: () => {
+        // error handled by interceptor
       }
     })
   }
