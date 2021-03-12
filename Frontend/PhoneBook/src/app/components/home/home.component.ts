@@ -7,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  ngOnInit(): void {
-    // Avoid ESLint empty function error
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  ngOnInit(): void { }
 
 }
