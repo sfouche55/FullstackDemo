@@ -11,7 +11,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
     private notifications: NotificationService) 
   { }
 
-  handleError(error: Error | HttpErrorResponse) {
+  handleError(error: Error | HttpErrorResponse): void {
     console.log('GlobalErrorHandlerService')
     console.error(error);
     let errorMessage: string;

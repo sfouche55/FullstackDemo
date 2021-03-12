@@ -13,7 +13,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
     private notifications: NotificationService) 
   { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {

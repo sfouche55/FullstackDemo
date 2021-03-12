@@ -34,35 +34,35 @@ export class ManageContactComponent implements OnInit {
     });
   }
 
-  onCancel() {
+  onCancel(): void {
     this.dialogref.close(null);
   }
 
-  onSave() {
+  onSave(): void {
     this.contact.name = this.contactForm.controls['name'].value;
     this.contact.phoneNumber = this.contactForm.controls['phoneNumber'].value;
     if (this.contact.id == undefined) {
-      this.contactService.add(this.contact).subscribe(
-        (result) => {
+      this.contactService.add(this.contact).subscribe({
+        next: (result) => {
           this.dialogref.close(result);
         }, 
-        (error) => {
+        error: () => {
           this.dialogref.close(null);
         }
-      );
+      });
     } else {
-      this.contactService.update(this.contact).subscribe(
-        (result) => {
+      this.contactService.update(this.contact).subscribe({
+        next: () => {
           this.dialogref.close(this.contact);
         }, 
-        (error) => {
+        error: () => {
           this.dialogref.close(null);
         }
-      );
+      });
     }
   }
 
-  public handleError = (control: string, error: string) => {
+  public hasValidationError(control: string, error: string): boolean {
     return this.contactForm.controls[control].hasError(error);
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Contact } from '../models/contact.model';
@@ -10,7 +10,7 @@ import { Contact } from '../models/contact.model';
 export class ContactService {
 
   private headers: HttpHeaders;
-  private accessPointUrl: string = "https://localhost:44306/api/Contacts";
+  private accessPointUrl = "https://localhost:44306/api/Contacts";
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
