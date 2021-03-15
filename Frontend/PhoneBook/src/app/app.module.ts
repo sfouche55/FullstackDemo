@@ -25,13 +25,15 @@ import { ContactService } from './services/contact.service';
 import { HttpErrorInterceptorService } from './services/http-error-interceptor.service';
 import { GlobalErrorHandlerService } from './services/global-error-handler.service';
 import { NotificationService } from './services/notification.service';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ViewContactsComponent,
-    ManageContactComponent
+    ManageContactComponent,
+    ConfirmDialogComponent
     ],
   imports: [
     BrowserModule,

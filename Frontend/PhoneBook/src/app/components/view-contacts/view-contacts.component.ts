@@ -8,6 +8,8 @@ import { Contact } from '../../models/contact.model';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-view-contacts',
@@ -54,8 +56,8 @@ export class ViewContactsComponent implements OnInit {
   }
 
   editContact(record: Contact): void {
-    const dialogRef = this.dialog.open(ManageContactComponent, { data: record });
-    dialogRef.afterClosed().subscribe({
+    const manageDialog = this.dialog.open(ManageContactComponent, { data: record });
+    manageDialog.afterClosed().subscribe({
       next: (result) => {
         if (result != null) {
             this.getContacts();
@@ -69,14 +71,24 @@ export class ViewContactsComponent implements OnInit {
   }
     
   deleteContact(record: Contact): void {
-    this.contactService.remove(record).subscribe({
-      next: () => {
-        this.getContacts();
-      },
-      error: () => {
-        // error handled by interceptor
+    const confirmDialogData: ConfirmDialogData = { 
+      title: 'Confirm Delete Contact', 
+      message: 'Are you sure you want to delete ' + record.name + '?' 
+    };
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent, { data: confirmDialogData });
+
+    confirmDialog.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.contactService.remove(record).subscribe({
+          next: () => {
+            this.getContacts();
+          },
+          error: () => {
+            // error handled by interceptor
+          }
+        })
       }
-    })
+    });
   }
 
 }
