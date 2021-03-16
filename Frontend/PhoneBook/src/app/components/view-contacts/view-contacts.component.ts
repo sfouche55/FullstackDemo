@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component';
@@ -56,7 +56,12 @@ export class ViewContactsComponent implements OnInit {
   }
 
   editContact(record: Contact): void {
-    const manageDialog = this.dialog.open(ManageContactComponent, { data: record });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = record;
+
+    const manageDialog = this.dialog.open(ManageContactComponent, dialogConfig);
     manageDialog.afterClosed().subscribe({
       next: (result) => {
         if (result != null) {
@@ -71,11 +76,17 @@ export class ViewContactsComponent implements OnInit {
   }
     
   deleteContact(record: Contact): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    
     const confirmDialogData: ConfirmDialogData = { 
       title: 'Confirm Delete Contact', 
       message: 'Are you sure you want to delete ' + record.name + '?' 
     };
-    const confirmDialog = this.dialog.open(ConfirmDialogComponent, { data: confirmDialogData });
+    dialogConfig.data = confirmDialogData;
+
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent, dialogConfig);
 
     confirmDialog.afterClosed().subscribe(result => {
       if (result === true) {
