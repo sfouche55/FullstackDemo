@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 
 import { Contact } from '../models/contact.model';
 
@@ -25,11 +25,23 @@ export class ContactService {
   }
 
   public remove(contact: Contact): Observable<Contact> {
-    return this.http.delete<Contact>(this.accessPointUrl + '/' + contact.id, {headers: this.headers});
+    const event = new ErrorEvent(
+      'Client Side Test Error for contact "' + contact.name + '"', {
+        error : new Error('AAAHHHH'),
+        message : 'A monkey is throwing bananas at me!',
+        lineno : 402,
+        filename : 'closet.html'
+      }
+    );    
+    const error = new HttpErrorResponse({error: event, headers: this.headers, url: this.accessPointUrl, statusText: "testing", status: 101});
+    return throwError(error);
+    
+    //return this.http.delete<Contact>(this.accessPointUrl + '/' + contact.id, {headers: this.headers});
   }
 
   public update(contact: Contact): Observable<Contact> {
-   return this.http.put<Contact>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
+    this.accessPointUrl = "https://localhost:44306/api/ContactsY";
+    return this.http.put<Contact>(this.accessPointUrl + '/' + contact.id, contact, {headers: this.headers});
   }
 
 }
