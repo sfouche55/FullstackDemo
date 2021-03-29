@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
+import { ContactService } from '../../services/contact.service';
+import { GlobalErrorHandlerService } from '../../services/global-error-handler.service'
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
@@ -30,6 +31,7 @@ export class ViewContactsComponent implements OnInit {
 
   constructor(
     private contactService: ContactService, 
+    private errorHandlerService: GlobalErrorHandlerService,
     public dialog: MatDialog
   ) { }
 
@@ -46,7 +48,8 @@ export class ViewContactsComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
-      error: () => {
+      error: (error) => {
+        this.errorHandlerService.handleError(error);
         this.busy = false;
       },
       complete: () => {
@@ -94,8 +97,8 @@ export class ViewContactsComponent implements OnInit {
           next: () => {
             this.getContacts();
           },
-          error: () => {
-            // error handled by interceptor
+          error: (error) => {
+            this.errorHandlerService.handleError(error);
           }
         })
       }

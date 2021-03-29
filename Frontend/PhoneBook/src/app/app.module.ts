@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,7 +22,6 @@ import { ViewContactsComponent } from './components/view-contacts/view-contacts.
 import { ManageContactComponent } from './components/manage-contact/manage-contact.component';
 
 import { ContactService } from './services/contact.service';
-import { HttpErrorInterceptorService } from './services/http-error-interceptor.service';
 import { GlobalErrorHandlerService } from './services/global-error-handler.service';
 import { NotificationService } from './services/notification.service';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
@@ -62,11 +61,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     { 
       provide: ErrorHandler, 
       useClass: GlobalErrorHandlerService
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptorService,
-      multi: true
     },
     NotificationService
   ],
