@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 
 import { Contact } from '../../models/contact.model';
 import { ContactService } from '../../services/contact.service';
-import { GlobalErrorHandlerService } from '../../services/global-error-handler.service'
+import { GlobalErrorHandlerService } from '../../services/global-error-handler.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
@@ -25,12 +25,12 @@ export class ViewContactsComponent implements OnInit {
   busy: boolean;
 
   public contacts: Array<Contact>;
-  
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private contactService: ContactService, 
+    private contactService: ContactService,
     private errorHandlerService: GlobalErrorHandlerService,
     public dialog: MatDialog
   ) { }
@@ -71,21 +71,21 @@ export class ViewContactsComponent implements OnInit {
             this.getContacts();
         }
       }
-    })
+    });
   }
 
   addContact(): void {
     this.editContact(null);
   }
-    
+
   deleteContact(record: Contact): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    
-    const confirmDialogData: ConfirmDialogData = { 
-      title: 'Confirm Delete Contact', 
-      message: 'Are you sure you want to delete ' + record.name + '?' 
+
+    const confirmDialogData: ConfirmDialogData = {
+      title: 'Confirm Delete Contact',
+      message: 'Are you sure you want to delete ' + record.name + '?'
     };
     dialogConfig.data = confirmDialogData;
 
@@ -100,7 +100,7 @@ export class ViewContactsComponent implements OnInit {
           error: (error) => {
             this.errorHandlerService.handleError(error);
           }
-        })
+        });
       }
     });
   }

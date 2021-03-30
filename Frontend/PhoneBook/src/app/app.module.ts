@@ -58,8 +58,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   ],
   providers: [
     ContactService,
-    { 
-      provide: ErrorHandler, 
+    {
+      provide: ErrorHandler,
       useClass: GlobalErrorHandlerService
     },
     NotificationService

@@ -21,5 +21,5 @@ export class NotificationService {
       this.snackBar.open(message, 'X', { panelClass: ['snackbar-error'] });
     });
   }
-  
+
 }

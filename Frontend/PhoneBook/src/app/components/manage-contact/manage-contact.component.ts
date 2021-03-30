@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ContactService } from '../../services/contact.service';
-import { GlobalErrorHandlerService } from '../../services/global-error-handler.service'
+import { GlobalErrorHandlerService } from '../../services/global-error-handler.service';
 import { Contact } from '../../models/contact.model';
 
 @Component({
@@ -15,9 +15,9 @@ export class ManageContactComponent implements OnInit {
 
   contact: Contact;
   contactForm: FormGroup;
-  
+
   constructor(
-    private dialogref : MatDialogRef<ManageContactComponent>,
+    private dialogref: MatDialogRef<ManageContactComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Contact,
     private formBuilder: FormBuilder,
     private contactService: ContactService,
@@ -43,11 +43,11 @@ export class ManageContactComponent implements OnInit {
   onSave(): void {
     this.contact.name = this.contactForm.controls['name'].value;
     this.contact.phoneNumber = this.contactForm.controls['phoneNumber'].value;
-    if (this.contact.id == undefined) {
+    if (this.contact.id === undefined) {
       this.contactService.add(this.contact).subscribe({
         next: (result) => {
           this.dialogref.close(result);
-        }, 
+        },
         error: (error) => {
           this.errorHandlerService.handleError(error);
           this.dialogref.close(null);
@@ -57,7 +57,7 @@ export class ManageContactComponent implements OnInit {
       this.contactService.update(this.contact).subscribe({
         next: () => {
           this.dialogref.close(this.contact);
-        }, 
+        },
         error: (error) => {
           this.errorHandlerService.handleError(error);
           this.dialogref.close(null);

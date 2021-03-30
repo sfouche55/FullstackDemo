@@ -10,7 +10,7 @@ import { Contact } from '../models/contact.model';
 export class ContactService {
 
   private headers: HttpHeaders;
-  private accessPointUrl = "https://localhost:44306/api/Contacts";
+  private accessPointUrl = 'https://localhost:44306/api/Contacts';
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
