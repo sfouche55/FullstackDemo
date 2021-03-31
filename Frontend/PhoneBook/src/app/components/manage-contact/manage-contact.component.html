@@ -1,27 +1,25 @@
 <div>
-    <h2 mat-dialog-title *ngIf="contact.id == undefined">Add New Contact</h2>
-    <h2 mat-dialog-title *ngIf="contact.id > 0">Update Contact</h2>
-    <form [formGroup]="contactForm" class="form" (ngSubmit)="onSave()">
-        <mat-dialog-content>
-            <mat-form-field>
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="name" required>
-                <mat-error *ngIf="hasValidationError('name', 'required')">
-                    You must provide a <strong>name</strong>
-                 </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-                <mat-label>Phone Number</mat-label>
-                <input matInput formControlName="phoneNumber" required>
-                <mat-error *ngIf="hasValidationError('phoneNumber', 'required')">
-                    You must provide a <strong>phone number</strong>
-                 </mat-error>
-            </mat-form-field>
-        </mat-dialog-content>
-        <mat-dialog-actions>
-            <button mat-button class="mat-raised-button mat-primary" type="submit" [disabled]="!contactForm.valid">Save</button>
-            <button mat-button class="mat-raised-button" type="button" (click)="onCancel()">Cancel</button>
-        </mat-dialog-actions>
-    </form>
+  <h2 mat-dialog-title *ngIf="contact.id == undefined">Add New Contact</h2>
+  <h2 mat-dialog-title *ngIf="contact.id > 0">Update Contact</h2>
+  <form [formGroup]="contactForm" class="form" (ngSubmit)="onSave()">
+    <mat-dialog-content>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="hasValidationError('name', 'required')"> You must provide a <strong>name</strong> </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phoneNumber" required />
+        <mat-error *ngIf="hasValidationError('phoneNumber', 'required')">
+          You must provide a <strong>phone number</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button class="mat-raised-button mat-primary" type="submit" [disabled]="!contactForm.valid">Save</button>
+      <button mat-button class="mat-raised-button" type="button" (click)="onCancel()">Cancel</button>
+    </mat-dialog-actions>
+  </form>
 </div>
